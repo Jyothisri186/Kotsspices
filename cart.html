@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Kota's Naveena</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        nav {
+            background-color: #FF3300;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: absolute;
+            width: 100%;
+            top: 0;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        nav a {
+            text-decoration: none;
+            color: black;
+            font-size: 1.2em;
+        }
+        .cart-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .cart-item-image {
+            width: 100px;
+            height: auto;
+            margin-right: 20px;
+        }
+        .cart-item-details {
+            flex-grow: 1;
+            text-align: left;
+            margin-right: 20px; /* Adjust as needed */
+        }
+        .cart-item-details h3 {
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            margin-right: 20px; /* Adjust as needed */
+        }
+        .quantity-control button {
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            background: #f4f4f4;
+            cursor: pointer;
+        }
+        .quantity-input {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: center;
+            width: 50px;
+            margin: 0 10px;
+        }
+        .remove-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5em;
+            color: #FF3300;
+            padding: 0;
+            margin-left: 10px; /* Adjust as needed */
+        }
+        .cart-total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: right;
+        }
+        .pay-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #FF3300;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="cart.html">Cart</a></li>
+        </ul>
+    </nav>
+
+    <div class="cart-container">
+        <h2>Your Shopping Cart</h2>
+        <div id="cart-items">
+            <!-- Cart items will be loaded here -->
+        </div>
+        <div class="cart-total">
+            <!-- Cart total will be loaded here -->
+        </div>
+        <a href="checkout.html" class="pay-button">Pay</a>
+    </div>
+
+    <script>
+        // Function to load cart items
+        function loadCartItems() {
+            const cartItemsElement = document.getElementById('cart-items');
+            let cart = JSON.parse(localStorage.getItem('cart')) || { items: [] };
+
+            if (cart.items.length === 0) {
+                cartItemsElement.innerHTML = '<p>Your cart is empty.</p>';
+                return;
+            }
+
+            let cartItemsHTML = '';
+            let totalAmount = 0;
+
+            cart.items.forEach(item => {
+                cartItemsHTML += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                        <div class="cart-item-details">
+                            <h3>${item.name}</h3>
+                        </div>
+                        <div class="quantity-control">
+                            <button onclick="updateQuantity('${item.name}', -1)">-</button>
+                            <input type="text" class="quantity-input" value="${item.quantity}" readonly>
+                            <button onclick="updateQuantity('${item.name}', 1)">+</button>
+                            <button class="remove-button" onclick="removeFromCart('${item.name}')">🗑</button>
+                        </div>
+                        <div class="cart-item-price">
+                            <p>Price: ₹${item.price * item.quantity}</p>
+                        </div>
+                    </div>
+                `;
+                totalAmount += item.price * item.quantity;
+            });
+
+            cartItemsElement.innerHTML = cartItemsHTML;
+            document.querySelector('.cart-total').innerHTML = `Total: ₹${totalAmount}`;
+        }
+
+        // Function to update quantity
+        function updateQuantity(productName, change) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || { items: [] };
+            const item = cart.items.find(item => item.name === productName);
+            if (item) {
+                item.quantity = Math.max(1, item.quantity + change);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                loadCartItems(); // Reload the cart to reflect changes
+            }
+        }
+
+        // Function to remove an item from the cart
+        function removeFromCart(productName) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || { items: [] };
+            const index = cart.items.findIndex(item => item.name === productName);
+            if (index !== -1) {
+                cart.items.splice(index, 1);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                loadCartItems(); // Reload the cart to reflect changes
+            }
+        }
+
+        // Load cart items when the cart page is loaded
+        window.onload = function() {
+            loadCartItems();
+        };
+    </script>
+</body>
+</html>

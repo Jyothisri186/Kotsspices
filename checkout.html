@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Kota's Naveena</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .checkout-container {
+            max-width: 800px;
+            margin: 10px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .checkout-section {
+            margin-bottom: 10px;
+        }
+        .checkout-section h2 {
+            margin-top: 0;
+        }
+        .checkout-section input, .checkout-section select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+        }
+        .checkout-section .checkbox-label {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            
+        }
+        .checkout-section .checkbox-label input {
+            margin-right: 10px;
+            width:5%;
+            padding: 10px;
+            margin: 5px 0;
+            
+        }
+        .payment-methods img {
+            max-width: 50px;
+            margin: 5px;
+        }
+        .pay-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #FF3300;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <div class="checkout-section">
+            <h2>Contact</h2>
+            <input type="email" placeholder="Email or mobile phone number" required>
+        </div>
+
+        <div class="checkout-section">
+            <h2>Delivery</h2>
+            <select required>
+                <option value="India">India</option>
+                <option value="US">US</option>
+                <option value="UK">UK</option>
+                <option value="Canada">Canada</option>
+                <!-- Add more countries as needed -->
+            </select>
+            <input type="text" placeholder="First name" required>
+            <input type="text" placeholder="Last name" required>
+            <input type="text" placeholder="Address" required>
+            <input type="text" placeholder="Apartment, suite, etc. (optional)">
+            <input type="text" placeholder="City" required>
+            <input type="text" placeholder="State" required>
+            <input type="text" placeholder="PIN code" required>
+            <input type="text" placeholder="Phone" required>
+            <div class="checkbox-label">
+                    <input type="checkbox" id="save-info">
+                    <label for="save-info">Save this information for next time</label>
+                </div>
+        </div> 
+        <div class="checkout-section">
+            <a href="#" class="pay-button">Pay Now</a>
+        </div>
+    </div>
+</body>
+</html>
